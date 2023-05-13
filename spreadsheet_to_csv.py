@@ -22,18 +22,16 @@ def main():
     scope = ['https://www.googleapis.com/auth/spreadsheets.readonly',
              'https://www.googleapis.com/auth/drive']
 
+    print("Authorizing credentials...")
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         credential_file, scope)
     gc = gspread.authorize(credentials)
 
     # スプレッドシートを開く
-    workbook = gc.open_by_key(SPREADSHEET_ID)
-    print(workbook)
-    worksheet = workbook.get_worksheet(0)  # 最初のワークシートを開く
-
+    print("Opening the spreadsheet...")
+    worksheet = gc.open_by_key(SPREADSHEET_ID).sheet1
     # スプレッドシートのデータを読み込む
     rows = worksheet.get(RANGE_NAME)
-    print(rows)
 
     del rows[0]  # 最初の行（ヘッダー行）を削除
 
